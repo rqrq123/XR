@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多目标倒计时</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>时间记录</h1>
+    <p id="start-date"></p> <!-- 显示开始日期 -->
+    <p id="days-counter">已经一起 3 天</p> <!-- 已经一起的天数 -->
+
+    <h2>目标日期倒计时</h2>
+    <div id="countdown-list">
+      <!-- 倒计时动态生成 -->
+    </div>
+
+    <div class="slideshow">
+      <img id="slideshow-img" src="photo1.jpg" alt="轮播图片">
+    </div>
+
+    <audio id="background-music" controls autoplay loop>
+      <source src="music.mp3" type="audio/mpeg">
+      您的浏览器不支持音频播放。
+    </audio>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
