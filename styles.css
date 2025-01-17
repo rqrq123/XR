@@ -1,39 +1,83 @@
-/* styles.css */
+/* 基本样式设置 */
 body {
-  font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;  /* 设置网页字体 */
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
-  text-align: center;
+  background-color: #f4f4f4; /* 设置背景颜色 */
+}
+
+h1, h2 {
+  text-align: center; /* 设置标题居中 */
+  color: #333; /* 设置标题颜色 */
 }
 
 .container {
-  margin-top: 50px;
+  width: 80%;
+  margin: 0 auto; /* 页面居中显示 */
+  padding: 20px;
+  background-color: #fff; /* 设置容器背景色 */
+  border-radius: 8px; /* 设置圆角 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 设置阴影效果 */
 }
 
-#timer {
-  font-size: 2em;
+/* 图片自适应样式 */
+img {
+  width: 100%; /* 图片宽度自适应容器 */
+  height: auto; /* 高度自动按比例调整 */
+  object-fit: contain; /* 保持图片完整，适应容器 */
+  display: block; /* 确保图片是块级元素 */
+  margin: 0 auto; /* 图片居中 */
+}
+
+/* 音乐播放器样式 */
+audio {
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* 倒计时列表样式 */
+#countdown-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#countdown-list li {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f0f0f0; /* 背景颜色 */
+  border: 1px solid #ccc; /* 边框 */
+  border-radius: 5px; /* 圆角效果 */
+}
+
+/* 日期和已一起天数样式 */
+#start-date, #days-counter {
+  font-size: 18px;
+  color: #555; /* 设置文字颜色 */
+  text-align: center;
+}
+
+/* 标题的颜色 */
+h1 {
+  font-size: 32px;
   color: #333;
 }
 
-.slideshow {
-  margin: 20px auto;
-  width: 300px;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 10px;
+/* 设置按钮的样式 */
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50; /* 按钮背景颜色 */
+  color: white; /* 按钮文字颜色 */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.slideshow img {
-  width: 100%;
-  height: auto;
+button:hover {
+  background-color: #45a049; /* 鼠标悬停时按钮颜色 */
 }
 
-audio {
-  margin-top: 20px;
-}
-img {
-  width: 100%;        /* 图片宽度自动适应容器 */
-  height: auto;       /* 高度按比例自适应 */
-  object-fit: contain; /* 保持图片完整，适应容器 */
+/* 其他常规样式 */
+p {
+  font-size: 16px;
+  color: #666;
 }
