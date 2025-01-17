@@ -32,3 +32,8 @@ body {
 audio {
   margin-top: 20px;
 }
+img {
+  width: 100%;        /* 图片宽度自动适应容器 */
+  height: auto;       /* 高度按比例自适应 */
+  object-fit: contain; /* 保持图片完整，适应容器 */
+}
