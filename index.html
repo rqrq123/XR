@@ -29,3 +29,70 @@
   <script src="script.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图片轮播</title>
+  <style>
+    /* 设置轮播容器 */
+    .slideshow-container {
+      position: relative;
+      max-width: 100%;
+      margin: auto;
+      box-sizing: border-box;
+    }
+
+    /* 隐藏所有图片 */
+    .mySlides {
+      display: none;
+      width: 100%;
+    }
+
+    /* 图片显示样式 */
+    .slideshow-container img {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>欢迎来到我的网站</h1>
+
+  <!-- 图片轮播 -->
+  <div class="slideshow-container">
+    <!-- 确保图片路径与实际上传的图片文件名匹配 -->
+    <img class="mySlides" src="photo1.jpg" alt="图片1">
+    <img class="mySlides" src="photo2.jpg" alt="图片2">
+    <img class="mySlides" src="photo3.jpg" alt="图片3">
+    <img class="mySlides" src="photo4.jpg" alt="图片4">
+  </div>
+
+  <script>
+    let slideIndex = 0; // 初始化轮播索引
+
+    function showSlides() {
+      let slides = document.getElementsByClassName("mySlides");
+
+      // 隐藏所有图片
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+
+      // 显示当前图片
+      slideIndex++;
+      if (slideIndex > slides.length) { slideIndex = 1 }
+      slides[slideIndex - 1].style.display = "block";
+
+      // 每 2 秒切换一次
+      setTimeout(showSlides, 2000);
+    }
+
+    // 启动轮播
+    showSlides();
+  </script>
+
+</body>
+</html>
