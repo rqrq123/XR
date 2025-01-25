@@ -66,6 +66,15 @@
         opacity: 0;
       }
     }
+
+    /* 倒计时的特别字体样式 */
+    .countdown {
+      font-size: 40px;
+      font-weight: bold;
+      color: #ffdd00; /* 明亮的黄色 */
+      text-shadow: 0 0 10px #ffdd00, 0 0 20px #ffdd00, 0 0 30px #ffdd00; /* 发光效果 */
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -78,8 +87,8 @@
 
     <!-- 倒计时目标 -->
     <div id="countdown-list">
-      <p>一年倒计时 - <span id="countdown1"></span></p>
-      <p>见面倒计时 - <span id="countdown2"></span></p>
+      <p>一年倒计时 - <span id="countdown1" class="countdown"></span></p>
+      <p>见面倒计时 - <span id="countdown2" class="countdown"></span></p>
     </div>
 
     <!-- 图片轮播 -->
@@ -104,10 +113,21 @@
     // 更新倒计时
     function updateCountdowns() {
       const now = new Date();
+      // 获取北京时间
+      const beijingTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Shanghai" }));
+
       function calculateCountdown(targetDate) {
-        const timeLeft = targetDate - now;
-        return timeLeft > 0 ? `${Math.ceil(timeLeft / (1000 * 60 * 60 * 24))} 天` : "已到期";
+        const timeLeft = targetDate - beijingTime; // 计算倒计时
+        const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        // 返回格式化后的倒计时
+        return `${daysLeft}天 ${hoursLeft}小时 ${minutesLeft}分钟 ${secondsLeft}秒`;
       }
+
+      // 更新倒计时显示
       document.getElementById("countdown1").textContent = calculateCountdown(targetDate1);
       document.getElementById("countdown2").textContent = calculateCountdown(targetDate2);
     }
@@ -155,7 +175,7 @@
     }
 
     // 每隔一定时间生成流星
-    setInterval(createMeteor, 100); // 每100ms生成一个流星
+    setInterval(createMeteor, 100); // 每500ms生成一个流星
 
     // 启动功能
     updateDaysCounter();
@@ -165,7 +185,7 @@
 
     // 定时更新
     setInterval(updateDaysCounter, 1000 * 60 * 60 * 24); // 每天更新一次
-    setInterval(updateCountdowns, 1000 * 60); // 每分钟更新一次
+    setInterval(updateCountdowns, 1000); // 每秒更新一次倒计时
   </script>
 </body>
 </html>
