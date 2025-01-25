@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,28 +8,63 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background-color: #f9f9f9;
-      color: #333;
+      background-color: black; /* 背景变为黑色 */
+      color: #fff; /* 文字为白色 */
       margin: 0;
       padding: 0;
+      overflow: hidden; /* 防止滚动条出现 */
     }
 
     .container {
       max-width: 800px;
       margin: auto;
       padding: 20px;
+      z-index: 10;
     }
 
     .slideshow-container {
       position: relative;
       max-width: 100%;
       margin: auto;
+      border-radius: 10px;
+      overflow: hidden;
     }
 
     .mySlides {
       display: none;
       width: 100%;
-      border-radius: 10px;
+    }
+
+    #countdown-list p, #days-counter, #start-date {
+      font-size: 18px;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    #countdown-list p {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    /* 流星雨效果 */
+    .meteor {
+      position: absolute;
+      width: 3px;
+      height: 10px;
+      background-color: white;
+      animation: meteor-fall linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes meteor-fall {
+      0% {
+        transform: translateY(-100vh) translateX(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) translateX(50vw);
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -69,13 +104,10 @@
     // 更新倒计时
     function updateCountdowns() {
       const now = new Date();
-
       function calculateCountdown(targetDate) {
         const timeLeft = targetDate - now;
-        const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
-        return daysLeft > 0 ? `${daysLeft} 天` : "已到期";
+        return timeLeft > 0 ? `${Math.ceil(timeLeft / (1000 * 60 * 60 * 24))} 天` : "已到期";
       }
-
       document.getElementById("countdown1").textContent = calculateCountdown(targetDate1);
       document.getElementById("countdown2").textContent = calculateCountdown(targetDate2);
     }
@@ -87,8 +119,7 @@
 
     function initializeSlideshow() {
       const slideshowContainer = document.getElementById("slideshow-container");
-      // 打乱图片顺序
-      const shuffledPaths = imagePaths.sort(() => 0.5 - Math.random());
+      const shuffledPaths = imagePaths.sort(() => 0.5 - Math.random()); // 打乱图片顺序
       shuffledPaths.forEach(path => {
         const img = document.createElement("img");
         img.src = path;
@@ -101,14 +132,30 @@
     let slideIndex = 0;
     function showSlides() {
       const slides = document.getElementsByClassName("mySlides");
-      for (let i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-      }
-      slideIndex++;
-      if (slideIndex > slides.length) { slideIndex = 1; }
-      slides[slideIndex - 1].style.display = "block";
-      setTimeout(showSlides, 5000); // 5秒切换一次
+      Array.from(slides).forEach(slide => slide.style.display = "none"); // 隐藏所有图片
+      slideIndex = (slideIndex + 1) % slides.length; // 循环显示
+      slides[slideIndex].style.display = "block";
+      setTimeout(showSlides, 5000); // 每5秒切换一次
     }
+
+    // 流星雨效果
+    function createMeteor() {
+      const meteor = document.createElement('div');
+      meteor.classList.add('meteor');
+      
+      // 设置随机位置和动画时长
+      meteor.style.left = `${Math.random() * 100}vw`; // 随机横向位置
+      meteor.style.animationDuration = `${Math.random() * 3 + 2}s`; // 随机速度
+      document.body.appendChild(meteor);
+
+      // 动画结束后移除流星
+      meteor.addEventListener('animationend', () => {
+        meteor.remove();
+      });
+    }
+
+    // 每隔一定时间生成流星
+    setInterval(createMeteor, 100); // 每100ms生成一个流星
 
     // 启动功能
     updateDaysCounter();
