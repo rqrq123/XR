@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>永远爱小情</title>
+  <meta name="description" content="永远爱小情，一起度过每一个特别的日子。">
+  <meta name="keywords" content="爱情，倒计时，情侣，纪念日">
+  <meta name="author" content="你的名字">
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background-color: black; /* 背景颜色为黑色 */
-      color: white; /* 文字颜色为白色 */
+      background-color: #121212; /* 深灰色背景 */
+      color: #e0e0e0; /* 文字颜色为白色 */
       margin: 0;
       padding: 0;
     }
@@ -23,17 +26,24 @@
     .countdown {
       font-size: 40px;
       font-weight: bold;
-      color: white; /* 文字颜色设置为白色 */
-      text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white; /* 发光效果 */
+      color: white;
+      text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white;
       margin: 10px 0;
     }
 
     #days-counter {
-      font-size: 50px; /* 更大字体 */
-      font-weight: bold; /* 加粗 */
-      color: white; /* 文字颜色为白色 */
-      text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white; /* 发光效果 */
+      font-size: 50px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white;
       margin: 20px 0;
+    }
+
+    #highlight-days {
+      font-size: 80px; /* 放大天数 */
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 15px white, 0 0 30px white, 0 0 45px white;
     }
 
     #countdown-list p {
@@ -75,6 +85,25 @@
       display: none;
       width: 100%;
     }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      #days-counter {
+        font-size: 40px;
+      }
+
+      #highlight-days {
+        font-size: 60px;
+      }
+
+      #countdown-list p {
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -83,8 +112,8 @@
 
     <!-- 时间记录 -->
     <p id="start-date">一起开始的日子：2025年1月14日</p>
-    <p id="days-counter">已经一起 0 天</p>
-
+    <p id="days-counter">已经一起 <span id="highlight-days">0</span> 天</p> <!-- 已经一起天数加大 -->
+    
     <!-- 倒计时目标 -->
     <div id="countdown-list">
       <p>一年倒计时 - <span id="countdown1" class="countdown"></span></p>
@@ -97,6 +126,10 @@
     </div>
   </div>
 
+  <div id="loading" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: white;">
+    <p>加载中...</p>
+  </div>
+
   <script>
     // 初始化日期
     const startDate = new Date("2025-01-14");
@@ -107,7 +140,7 @@
     function updateDaysCounter() {
       const now = new Date();
       const daysTogether = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-      document.getElementById("days-counter").textContent = `已经一起 ${daysTogether} 天`;
+      document.getElementById("highlight-days").textContent = daysTogether; // 重点显示的天数
     }
 
     // 更新倒计时
@@ -143,7 +176,7 @@
       shuffledPaths.forEach(path => {
         const img = document.createElement("img");
         img.src = path;
-        img.alt = "轮播图片";
+        img.alt = `图片 ${path}`;
         img.className = "mySlides";
         slideshowContainer.appendChild(img);
       });
@@ -175,7 +208,7 @@
     }
 
     // 每隔一定时间生成流星，调整频率为每500ms
-    setInterval(createMeteor, 500); // 每500ms生成一个流星
+    setInterval(createMeteor, 500);
 
     // 启动功能
     updateDaysCounter();
@@ -186,6 +219,11 @@
     // 定时更新
     setInterval(updateDaysCounter, 1000 * 60 * 60 * 24); // 每天更新一次
     setInterval(updateCountdowns, 1000); // 每秒更新一次倒计时
+
+    // 加载完成后隐藏加载动画
+    window.onload = function() {
+      document.getElementById("loading").style.display = "none";
+    };
   </script>
 </body>
 </html>
