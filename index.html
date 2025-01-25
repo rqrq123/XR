@@ -12,37 +12,29 @@
       color: white; /* 文字颜色为白色 */
       margin: 0;
       padding: 0;
-      overflow: hidden; /* 隐藏滚动条 */
     }
 
     .container {
       max-width: 800px;
       margin: auto;
       padding: 20px;
-      z-index: 10;
     }
 
-    .slideshow-container {
-      position: relative;
-      max-width: 100%;
-      margin: auto;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .mySlides {
-      display: none;
-      width: 100%;
-    }
-
-    #countdown-list p, #days-counter, #start-date {
-      font-size: 18px;
+    .countdown {
+      font-size: 40px;
+      font-weight: bold;
+      color: #ffdd00; /* 明亮的白色 */
+      text-shadow: 0 0 10px #ffdd00, 0 0 20px #ffdd00, 0 0 30px #ffdd00; /* 发光效果 */
       margin: 10px 0;
+    }
+
+    #days-counter, #countdown {
+      font-size: 30px;
       font-weight: bold;
     }
 
     #countdown-list p {
-      font-size: 16px;
+      font-size: 20px;
       margin: 5px 0;
     }
 
@@ -66,15 +58,6 @@
         opacity: 0;
       }
     }
-
-    /* 倒计时的特别字体样式 */
-    .countdown {
-      font-size: 40px;
-      font-weight: bold;
-      color: #ffdd00; /* 明亮的黄色 */
-      text-shadow: 0 0 10px #ffdd00, 0 0 20px #ffdd00, 0 0 30px #ffdd00; /* 发光效果 */
-      margin: 10px 0;
-    }
   </style>
 </head>
 <body>
@@ -83,17 +66,12 @@
 
     <!-- 时间记录 -->
     <p id="start-date">一起开始的日子：2025年1月14日</p>
-    <p id="days-counter">已经一起 14 天</p>
+    <p id="days-counter">已经一起 0 天</p>
 
     <!-- 倒计时目标 -->
     <div id="countdown-list">
       <p>一年倒计时 - <span id="countdown1" class="countdown"></span></p>
       <p>见面倒计时 - <span id="countdown2" class="countdown"></span></p>
-    </div>
-
-    <!-- 图片轮播 -->
-    <div class="slideshow-container" id="slideshow-container">
-      <!-- 动态添加图片 -->
     </div>
   </div>
 
@@ -132,32 +110,6 @@
       document.getElementById("countdown2").textContent = calculateCountdown(targetDate2);
     }
 
-    // 图片轮播
-    const imagePaths = [
-      "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg", "photo5.jpg", "photo6.jpg", "photo7.jpg" // 可继续添加
-    ];
-
-    function initializeSlideshow() {
-      const slideshowContainer = document.getElementById("slideshow-container");
-      const shuffledPaths = imagePaths.sort(() => 0.5 - Math.random()); // 打乱图片顺序
-      shuffledPaths.forEach(path => {
-        const img = document.createElement("img");
-        img.src = path;
-        img.alt = "轮播图片";
-        img.className = "mySlides";
-        slideshowContainer.appendChild(img);
-      });
-    }
-
-    let slideIndex = 0;
-    function showSlides() {
-      const slides = document.getElementsByClassName("mySlides");
-      Array.from(slides).forEach(slide => slide.style.display = "none"); // 隐藏所有图片
-      slideIndex = (slideIndex + 1) % slides.length; // 循环显示
-      slides[slideIndex].style.display = "block";
-      setTimeout(showSlides, 5000); // 每5秒切换一次
-    }
-
     // 流星雨效果
     function createMeteor() {
       const meteor = document.createElement('div');
@@ -180,8 +132,6 @@
     // 启动功能
     updateDaysCounter();
     updateCountdowns();
-    initializeSlideshow();
-    showSlides();
 
     // 定时更新
     setInterval(updateDaysCounter, 1000 * 60 * 60 * 24); // 每天更新一次
