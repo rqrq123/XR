@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>永远爱小情</title>
+  <meta name="description" content="永远爱小情，一起度过每一个特别的日子。">
+  <meta name="keywords" content="爱情，倒计时，情侣，纪念日">
+  <meta name="author" content="你的名字">
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background-color: black; /* 背景颜色为黑色 */
-      color: white; /* 文字颜色为白色 */
+      background-color: #121212; /* 深灰色背景 */
+      color: #e0e0e0; /* 文字颜色为白色 */
       margin: 0;
       padding: 0;
     }
@@ -20,20 +23,32 @@
       padding: 20px;
     }
 
-    .countdown {
-      font-size: 40px;
+    h1 {
+      font-size: 36px;
       font-weight: bold;
-      color: white; /* 文字颜色设置为白色 */
-      text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white; /* 发光效果 */
-      margin: 10px 0;
+      color: white;
+      text-shadow: 0 0 10px white, 0 0 20px white;
+    }
+
+    #start-date {
+      font-size: 22px;
+      color: white;
+      text-shadow: 0 0 10px white, 0 0 20px white;
     }
 
     #days-counter {
-      font-size: 50px; /* 更大字体 */
-      font-weight: bold; /* 加粗 */
-      color: white; /* 文字颜色为白色 */
-      text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white; /* 发光效果 */
+      font-size: 40px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 10px white, 0 0 20px white;
       margin: 20px 0;
+    }
+
+    #highlight-days {
+      font-size: 80px; /* 放大天数 */
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 15px white, 0 0 30px white, 0 0 45px white;
     }
 
     #countdown-list p {
@@ -41,12 +56,12 @@
       margin: 5px 0;
     }
 
-    /* 强调天数的样式 */
-    #highlight-days {
-      font-size: 80px; /* 放大天数 */
+    .countdown {
+      font-size: 20px; /* 与其他字体大小一致 */
       font-weight: bold;
-      color: white; /* 文字颜色为白色 */
-      text-shadow: 0 0 15px white, 0 0 30px white, 0 0 45px white; /* 发光效果 */
+      color: white;
+      text-shadow: 0 0 10px white, 0 0 20px white;
+      margin: 5px 0;
     }
 
     /* 流星雨效果 */
@@ -83,6 +98,25 @@
       display: none;
       width: 100%;
     }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      #days-counter {
+        font-size: 40px;
+      }
+
+      #highlight-days {
+        font-size: 60px;
+      }
+
+      #countdown-list p {
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -103,6 +137,10 @@
     <div class="slideshow-container" id="slideshow-container">
       <!-- 动态添加图片 -->
     </div>
+  </div>
+
+  <div id="loading" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: white;">
+    <p>加载中...</p>
   </div>
 
   <script>
@@ -151,7 +189,7 @@
       shuffledPaths.forEach(path => {
         const img = document.createElement("img");
         img.src = path;
-        img.alt = "轮播图片";
+        img.alt = `图片 ${path}`;
         img.className = "mySlides";
         slideshowContainer.appendChild(img);
       });
@@ -183,7 +221,7 @@
     }
 
     // 每隔一定时间生成流星，调整频率为每500ms
-    setInterval(createMeteor, 500); // 每500ms生成一个流星
+    setInterval(createMeteor, 500);
 
     // 启动功能
     updateDaysCounter();
@@ -194,6 +232,11 @@
     // 定时更新
     setInterval(updateDaysCounter, 1000 * 60 * 60 * 24); // 每天更新一次
     setInterval(updateCountdowns, 1000); // 每秒更新一次倒计时
+
+    // 加载完成后隐藏加载动画
+    window.onload = function() {
+      document.getElementById("loading").style.display = "none";
+    };
   </script>
 </body>
 </html>
