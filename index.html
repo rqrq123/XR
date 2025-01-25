@@ -12,7 +12,7 @@
       font-family: Arial, sans-serif;
       text-align: center;
       background-color: #121212; /* 深灰色背景 */
-      color: #e0e0e0; /* 文字颜色为白色 */
+      color: #e0e0e0; /* 白色字体 */
       margin: 0;
       padding: 0;
     }
@@ -37,7 +37,7 @@
     }
 
     #days-counter {
-      font-size: 40px;
+      font-size: 24px;
       font-weight: bold;
       color: white;
       text-shadow: 0 0 10px white, 0 0 20px white;
@@ -57,7 +57,7 @@
     }
 
     .countdown {
-      font-size: 20px; /* 与其他字体大小一致 */
+      font-size: 20px;
       font-weight: bold;
       color: white;
       text-shadow: 0 0 10px white, 0 0 20px white;
@@ -105,10 +105,6 @@
         padding: 10px;
       }
 
-      #days-counter {
-        font-size: 40px;
-      }
-
       #highlight-days {
         font-size: 60px;
       }
@@ -125,8 +121,8 @@
 
     <!-- 时间记录 -->
     <p id="start-date">一起开始的日子：2025年1月14日</p>
-    <p id="days-counter">已经一起 <span id="highlight-days">0</span> 天</p> <!-- 已经一起天数加大 -->
-    
+    <p id="days-counter">已经一起 <span id="highlight-days">0</span> 天</p>
+
     <!-- 倒计时目标 -->
     <div id="countdown-list">
       <p>一年倒计时 - <span id="countdown1" class="countdown"></span></p>
@@ -134,13 +130,7 @@
     </div>
 
     <!-- 图片轮播 -->
-    <div class="slideshow-container" id="slideshow-container">
-      <!-- 动态添加图片 -->
-    </div>
-  </div>
-
-  <div id="loading" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: white;">
-    <p>加载中...</p>
+    <div class="slideshow-container" id="slideshow-container"></div>
   </div>
 
   <script>
@@ -149,44 +139,39 @@
     const targetDate1 = new Date("2026-01-14"); // 一年倒计时目标日期
     const targetDate2 = new Date("2025-10-01"); // 见面倒计时目标日期
 
-    // 更新天数
     function updateDaysCounter() {
       const now = new Date();
       const daysTogether = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-      document.getElementById("highlight-days").textContent = daysTogether; // 重点显示的天数
+      document.getElementById("highlight-days").textContent = daysTogether;
     }
 
-    // 更新倒计时
     function updateCountdowns() {
       const now = new Date();
-      // 获取北京时间
       const beijingTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Shanghai" }));
 
       function calculateCountdown(targetDate) {
-        const timeLeft = targetDate - beijingTime; // 计算倒计时
+        const timeLeft = targetDate - beijingTime;
         const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
         const hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-        // 返回格式化后的倒计时
         return `${daysLeft}天 ${hoursLeft}小时 ${minutesLeft}分钟 ${secondsLeft}秒`;
       }
 
-      // 更新倒计时显示
       document.getElementById("countdown1").textContent = calculateCountdown(targetDate1);
       document.getElementById("countdown2").textContent = calculateCountdown(targetDate2);
     }
 
     // 图片轮播
     const imagePaths = [
-      "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg", "photo5.jpg", "photo6.jpg", "photo7.jpg" // 确保图片路径正确
+      "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg",
+      "photo5.jpg", "photo6.jpg", "photo7.jpg", "photo8.jpg",
+      "photo9.jpg", "photo10.jpg"
     ];
 
     function initializeSlideshow() {
       const slideshowContainer = document.getElementById("slideshow-container");
-      const shuffledPaths = imagePaths.sort(() => 0.5 - Math.random()); // 打乱图片顺序
-      shuffledPaths.forEach(path => {
+      imagePaths.forEach(path => {
         const img = document.createElement("img");
         img.src = path;
         img.alt = `图片 ${path}`;
@@ -198,45 +183,31 @@
     let slideIndex = 0;
     function showSlides() {
       const slides = document.getElementsByClassName("mySlides");
-      Array.from(slides).forEach(slide => slide.style.display = "none"); // 隐藏所有图片
-      slideIndex = (slideIndex + 1) % slides.length; // 循环显示
+      Array.from(slides).forEach(slide => slide.style.display = "none");
+      slideIndex = (slideIndex + 1) % slides.length;
       slides[slideIndex].style.display = "block";
-      setTimeout(showSlides, 5000); // 每5秒切换一次
+      setTimeout(showSlides, 5000);
     }
 
     // 流星雨效果
     function createMeteor() {
       const meteor = document.createElement('div');
       meteor.classList.add('meteor');
-      
-      // 设置随机位置和动画时长
-      meteor.style.left = `${Math.random() * 100}vw`; // 随机横向位置
-      meteor.style.animationDuration = `${Math.random() * 3 + 2}s`; // 随机速度
+      meteor.style.left = `${Math.random() * 100}vw`;
+      meteor.style.animationDuration = `${Math.random() * 3 + 2}s`;
       document.body.appendChild(meteor);
-
-      // 动画结束后移除流星
-      meteor.addEventListener('animationend', () => {
-        meteor.remove();
-      });
+      meteor.addEventListener('animationend', () => meteor.remove());
     }
 
-    // 每隔一定时间生成流星，调整频率为每500ms
-    setInterval(createMeteor, 500);
+    setInterval(createMeteor, 1000);
 
-    // 启动功能
+    // 初始化
     updateDaysCounter();
     updateCountdowns();
     initializeSlideshow();
     showSlides();
-
-    // 定时更新
-    setInterval(updateDaysCounter, 1000 * 60 * 60 * 24); // 每天更新一次
-    setInterval(updateCountdowns, 1000); // 每秒更新一次倒计时
-
-    // 加载完成后隐藏加载动画
-    window.onload = function() {
-      document.getElementById("loading").style.display = "none";
-    };
+    setInterval(updateDaysCounter, 86400000); // 每天更新
+    setInterval(updateCountdowns, 1000); // 每秒更新
   </script>
 </body>
 </html>
