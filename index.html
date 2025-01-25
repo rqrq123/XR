@@ -3,96 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>随便吧</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="container">
-    <h1>时间记录</h1>
-    <p id="start-date"></p> <!-- 显示开始日期 -->
-    <p id="days-counter">已经一起 10000000 天</p> <!-- 已经一起的天数 -->
-
-    <h2>目标日期倒计时</h2>
-    <div id="countdown-list">
-      <!-- 倒计时动态生成 -->
-    </div>
-
-    <div class="slideshow">
-      <img id="slideshow-img" src="photo1.jpg" alt="轮播图片">
-    </div>
-
-    <audio id="background-music" controls autoplay loop>
-      <source src="music.mp3" type="audio/mpeg">
-      您的浏览器不支持音频播放。
-    </audio>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>图片轮播</title>
+  <title>永远爱小情</title>
   <style>
-    /* 设置轮播容器 */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+
     .slideshow-container {
       position: relative;
       max-width: 100%;
       margin: auto;
-      box-sizing: border-box;
     }
 
-    /* 隐藏所有图片 */
     .mySlides {
       display: none;
       width: 100%;
-    }
-
-    /* 图片显示样式 */
-    .slideshow-container img {
-      width: 100%;
-      height: auto;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>永远爱小情</h1>
 
-  <h1>我真可爱</h1>
+    <!-- 时间记录 -->
+    <h2>时间记录</h2>
+    <p id="start-date">一起开始的日子：2023年1月14日</p>
+    <p id="days-counter">已经一起 11 天</p>
 
-  <!-- 图片轮播 -->
-  <div class="slideshow-container">
-    <!-- 确保图片路径与实际上传的图片文件名匹配 -->
-    <img class="mySlides" src="photo1.jpg" alt="图片1">
-    <img class="mySlides" src="photo2.jpg" alt="图片2">
-    <img class="mySlides" src="photo3.jpg" alt="图片3">
-    <img class="mySlides" src="photo4.jpg" alt="图片4">
+    <!-- 倒计时目标 -->
+    <div id="countdown-list">
+      <p>一年倒计时 - <span id="countdown1"></span></p>
+      <p>见面倒计时 - <span id="countdown2"></span></p>
+    </div>
+
+    <!-- 图片轮播 -->
+    <div class="slideshow-container" id="slideshow-container">
+      <!-- 动态添加图片 -->
+    </div>
   </div>
 
   <script>
-    let slideIndex = 0; // 初始化轮播索引
+    // 初始化日期
+    const startDate = new Date("2024-01-14");
+    const targetDate1 = new Date("2026-01-14"); // 一年倒计时目标日期
+    const targetDate2 = new Date("2025-10-01"); // 见面倒计时目标日期
 
+    // 更新天数
+    function updateDaysCounter() {
+      const now = new Date();
+      const daysTogether = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+      document.getElementById("days-counter").textContent = `已经一起 ${daysTogether} 天`;
+    }
+
+    // 更新倒计时
+    function updateCountdowns() {
+      const now = new Date();
+
+      function calculateCountdown(targetDate) {
+        const timeLeft = targetDate - now;
+        const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+        return daysLeft > 0 ? `${daysLeft} 天` : "已到期";
+      }
+
+      document.getElementById("countdown1").textContent = calculateCountdown(targetDate1);
+      document.getElementById("countdown2").textContent = calculateCountdown(targetDate2);
+    }
+
+    // 图片轮播
+    const imagePaths = [
+      "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg", "photo5.jpg", "photo6.jpg", "photo7.jpg" // 可继续添加
+    ];
+
+    function initializeSlideshow() {
+      const slideshowContainer = document.getElementById("slideshow-container");
+      // 打乱图片顺序
+      const shuffledPaths = imagePaths.sort(() => 0.5 - Math.random());
+      shuffledPaths.forEach(path => {
+        const img = document.createElement("img");
+        img.src = path;
+        img.alt = "轮播图片";
+        img.className = "mySlides";
+        slideshowContainer.appendChild(img);
+      });
+    }
+
+    let slideIndex = 0;
     function showSlides() {
-      let slides = document.getElementsByClassName("mySlides");
-
-      // 隐藏所有图片
+      const slides = document.getElementsByClassName("mySlides");
       for (let i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
       }
-
-      // 显示当前图片
       slideIndex++;
-      if (slideIndex > slides.length) { slideIndex = 1 }
+      if (slideIndex > slides.length) { slideIndex = 1; }
       slides[slideIndex - 1].style.display = "block";
-
-      // 每 5 秒切换一次
-      setTimeout(showSlides, 2000);
+      setTimeout(showSlides, 5000); // 5秒切换一次
     }
 
-    // 启动轮播
+    // 启动功能
+    updateDaysCounter();
+    updateCountdowns();
+    initializeSlideshow();
     showSlides();
-  </script>
 
+    // 定时更新
+    setInterval(updateDaysCounter, 1000 * 60 * 60 * 24); // 每天更新一次
+    setInterval(updateCountdowns, 1000 * 60); // 每分钟更新一次
+  </script>
 </body>
 </html>
