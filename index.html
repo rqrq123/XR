@@ -3,101 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>永远爱小情</title>
-  <meta name="description" content="永远爱小情，一起度过每一个特别的日子。">
-  <meta name="keywords" content="爱情，倒计时，情侣，纪念日">
-  <meta name="author" content="你的名字">
+  <title>你会爱我一辈子吗？</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background-color: #121212; /* 深灰色背景 */
-      color: #e0e0e0; /* 白色字体 */
+      background-color: #ffdee9;
+      background: linear-gradient(to right, #ffdee9, #b5fffc);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       margin: 0;
-      padding: 0;
-      overflow-x: hidden; /* 防止溢出 */
-    }
-
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
+      transition: all 1s ease-in-out;
     }
 
     h1 {
-      font-size: 36px;
-      font-weight: bold;
-      color: white;
-      text-shadow: 0 0 10px white, 0 0 20px white;
-    }
-
-    #start-date {
-      font-size: 22px;
-      color: white;
-      text-shadow: 0 0 10px white, 0 0 20px white;
-    }
-
-    #days-counter {
-      font-size: 24px;
-      font-weight: bold;
-      color: white;
-      text-shadow: 0 0 10px white, 0 0 20px white;
-      margin: 20px 0;
-    }
-
-    #highlight-days {
-      font-size: 80px; /* 放大天数 */
-      font-weight: bold;
-      color: white;
-      text-shadow: 0 0 15px white, 0 0 30px white, 0 0 45px white;
-    }
-
-    #countdown-list p {
-      font-size: 20px;
-      margin: 5px 0;
-    }
-
-    .countdown {
-      font-size: 20px;
-      font-weight: bold;
-      color: white;
-      text-shadow: 0 0 10px white, 0 0 20px white;
-      margin: 5px 0;
-    }
-
-    /* 流星雨效果 */
-    .meteor {
-      position: absolute;
-      width: 3px;
-      height: 10px;
-      background-color: white;
-      animation: meteor-fall linear infinite;
-      opacity: 0;
-    }
-
-    @keyframes meteor-fall {
-      0% {
-        transform: translateY(-100vh) translateX(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) translateX(50vw);
-        opacity: 0;
-      }
-    }
-
-    /* 图片轮播样式 */
-    .slideshow-container {
-      position: relative;
-      max-width: 100%;
-      margin: auto;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .mySlides {
-      display: none;
-      width: 100%;
+      font-size: 28px;
+      color: #ff4081;
+      text-shadow: 2px 2px 10px rgba(255, 64, 129, 0.5);
     }
 
     .button-container {
@@ -124,127 +49,110 @@
       color: black;
     }
 
-    /* 响应式设计 */
-    @media (max-width: 768px) {
-      .container {
-        padding: 10px;
-      }
+    #countdown-container {
+      display: none;
+      font-size: 24px;
+      color: #ff4081;
+      text-shadow: 2px 2px 10px rgba(255, 64, 129, 0.5);
+      transition: opacity 1s ease-in-out;
+    }
 
-      #highlight-days {
-        font-size: 60px;
-      }
-
-      #countdown-list p {
-        font-size: 18px;
-      }
+    #highlight-days {
+      font-size: 80px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 15px white, 0 0 30px white, 0 0 45px white;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>永远爱小情</h1>
 
-    <!-- 时间记录 -->
+  <h1 id="question">你会爱我一辈子吗？</h1>
+  
+  <div class="button-container">
+    <button id="yes">会 💖</button>
+    <button id="no">不会 🙅‍♂️</button>
+  </div>
+
+  <div id="countdown-container">
     <p id="start-date">一起开始的日子：2025年1月14日</p>
     <p id="days-counter">已经一起 <span id="highlight-days">0</span> 天</p>
-
-    <!-- 倒计时目标 -->
-    <div id="countdown-list">
-      <p>一年倒计时 - <span id="countdown1" class="countdown"></span></p>
-      <p>见面倒计时 - <span id="countdown2" class="countdown"></span></p>
-    </div>
-
-    <!-- 图片轮播 -->
-    <div class="slideshow-container" id="slideshow-container"></div>
-
-    <!-- 按钮 -->
-    <div class="button-container">
-      <button id="yes">会 💖</button>
-      <button id="no">不会 🙅‍♂️</button>
-    </div>
+    <p>一年倒计时 - <span id="countdown1"></span></p>
+    <p>见面倒计时 - <span id="countdown2"></span></p>
   </div>
 
   <script>
-    // 初始化日期
-    const startDate = new Date("2025-01-14");
-    const targetDate1 = new Date("2026-01-14"); // 一年倒计时目标日期
-    const targetDate2 = new Date("2025-10-01"); // 见面倒计时目标日期
-
-    function updateDaysCounter() {
-      const now = new Date();
-      const daysTogether = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-      document.getElementById("highlight-days").textContent = daysTogether;
-    }
-
-    function updateCountdowns() {
-      const now = new Date();
-      const beijingTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Shanghai" }));
-
-      function calculateCountdown(targetDate) {
-        const timeLeft = targetDate - beijingTime;
-        const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        return `${daysLeft}天 ${hoursLeft}小时 ${minutesLeft}分钟 ${secondsLeft}秒`;
-      }
-
-      document.getElementById("countdown1").textContent = calculateCountdown(targetDate1);
-      document.getElementById("countdown2").textContent = calculateCountdown(targetDate2);
-    }
-
-    // 图片轮播
-    const imagePaths = [
-      "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg",
-      "photo5.jpg", "photo6.jpg", "photo7.jpg", "photo8.jpg",
-      "photo9.jpg", "photo10.jpg"
-    ];
-
-    function initializeSlideshow() {
-      const slideshowContainer = document.getElementById("slideshow-container");
-      imagePaths.forEach(path => {
-        const img = document.createElement("img");
-        img.src = path;
-        img.alt = `图片 ${path}`;
-        img.className = "mySlides";
-        slideshowContainer.appendChild(img);
-      });
-    }
-
-    let slideIndex = 0;
-    function showSlides() {
-      const slides = document.getElementsByClassName("mySlides");
-      Array.from(slides).forEach(slide => slide.style.display = "none");
-      slideIndex = (slideIndex + 1) % slides.length;
-      slides[slideIndex].style.display = "block";
-      setTimeout(showSlides, 5000);
-    }
-
-    // 流星雨效果
-    function createMeteor() {
-      const meteor = document.createElement('div');
-      meteor.classList.add('meteor');
-      meteor.style.left = `${Math.random() * 100}vw`;
-      meteor.style.animationDuration = `${Math.random() * 3 + 2}s`;
-      document.body.appendChild(meteor);
-      meteor.addEventListener('animationend', () => meteor.remove());
-    }
-
-    setInterval(createMeteor, 1000);
-
-    // 会按钮变大
+    let noClickCount = 0;
     const yesButton = document.getElementById("yes");
-    yesButton.addEventListener("click", () => {
-      yesButton.style.transform = "scale(1.5)";
+    const noButton = document.getElementById("no");
+    const question = document.getElementById("question");
+    const countdownContainer = document.getElementById("countdown-container");
+
+    noButton.addEventListener("click", () => {
+      noClickCount++;
+
+      if (noClickCount === 1) {
+        noButton.textContent = "？你认真的吗？";
+      } else if (noClickCount === 2) {
+        noButton.textContent = "要不你再想想？";
+      } else if (noClickCount === 3) {
+        noButton.textContent = "不许按这个！";
+      } else if (noClickCount === 4) {
+        noButton.textContent = "我会很伤心的";
+      } else {
+        yesButton.style.transform = "scale(1.5)";
+        noButton.style.display = "none";
+      }
     });
 
-    // 初始化
-    updateDaysCounter();
-    updateCountdowns();
-    initializeSlideshow();
-    showSlides();
-    setInterval(updateDaysCounter, 86400000); // 每天更新
-    setInterval(updateCountdowns, 1000); // 每秒更新
+    yesButton.addEventListener("click", () => {
+      question.textContent = "💖 我们会一起一辈子 💖";
+      yesButton.style.display = "none";
+      noButton.style.display = "none";
+
+      setTimeout(() => {
+        showCountdown();
+      }, 3000);
+    });
+
+    function showCountdown() {
+      document.body.style.background = "#121212";
+      question.style.display = "none";
+      countdownContainer.style.display = "block";
+
+      // 纪念日计算
+      const startDate = new Date("2025-01-14");
+      const targetDate1 = new Date("2026-01-14");
+      const targetDate2 = new Date("2025-10-01");
+
+      function updateDaysCounter() {
+        const now = new Date();
+        const daysTogether = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+        document.getElementById("highlight-days").textContent = daysTogether;
+      }
+
+      function updateCountdowns() {
+        const now = new Date();
+        const beijingTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Shanghai" }));
+
+        function calculateCountdown(targetDate) {
+          const timeLeft = targetDate - beijingTime;
+          const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+          const hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          const secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
+          return `${daysLeft}天 ${hoursLeft}小时 ${minutesLeft}分钟 ${secondsLeft}秒`;
+        }
+
+        document.getElementById("countdown1").textContent = calculateCountdown(targetDate1);
+        document.getElementById("countdown2").textContent = calculateCountdown(targetDate2);
+      }
+
+      updateDaysCounter();
+      updateCountdowns();
+      setInterval(updateCountdowns, 1000);
+    }
   </script>
+
 </body>
 </html>
